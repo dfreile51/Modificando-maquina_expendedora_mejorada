@@ -91,10 +91,10 @@ public class MaquinaExpendedoraMejorada {
         if (balanceClienteActual == 0) {
             balanceClienteActual = 0;
             totalDineroAcumulado = 0;
-            return -1;
         }
         else {
             System.out.println("No se puede ejecutar el vaciado mientras se introduzca dinero");
+            totalDineroExtraido = -1;
         }
         return totalDineroExtraido;
     }
