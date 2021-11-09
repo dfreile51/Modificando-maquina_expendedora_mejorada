@@ -51,14 +51,16 @@ public class MaquinaExpendedoraMejorada {
      * Simula la introduccion de dinero por parte del cliente actual
      */
     public void introducirDinero(int cantidadIntroducida) {
-        if (billetesVendidos == numeroMaximoDeBilletes) {
-            System.out.println("No se acepta más dinero, lo siento.");
-        }
-        if (cantidadIntroducida > 0) {
-            balanceClienteActual = balanceClienteActual + cantidadIntroducida;
+        if (billetesVendidos < numeroMaximoDeBilletes) {
+            if (cantidadIntroducida > 0) {
+                balanceClienteActual = balanceClienteActual + cantidadIntroducida;
+            }
+            else {
+                System.out.println(cantidadIntroducida + " no es una cantidad de dinero valida.");
+            }
         }
         else {
-            System.out.println(cantidadIntroducida + " no es una cantidad de dinero valida.");
+            System.out.println("No se acepta más dinero, lo siento.");
         }
     }
 
@@ -68,30 +70,32 @@ public class MaquinaExpendedoraMejorada {
     public void imprimirBillete() {
         double descuento = (precioBillete * 10) / 100;
         int cantidadDeDineroQueFalta = precioBillete - balanceClienteActual;
-        if (cantidadDeDineroQueFalta <= 0) {        
-            // Simula la impresion de un billete
-            System.out.println("##################");
-            System.out.println("# Billete de tren:");
-            System.out.println("# De " + estacionOrigen + " a " + estacionDestino);
-            System.out.println("# " + precioBillete + " euros.");
-            if (tipoMaquina == true) {
-                System.out.println("Usted dispone de " + descuento + " euros de descuento para la tienda de alimentación de " + estacionDestino + ".");
+        if (billetesVendidos < numeroMaximoDeBilletes) {
+            if (cantidadDeDineroQueFalta <= 0) {        
+                // Simula la impresion de un billete
+                System.out.println("##################");
+                System.out.println("# Billete de tren:");
+                System.out.println("# De " + estacionOrigen + " a " + estacionDestino);
+                System.out.println("# " + precioBillete + " euros.");
+                if (tipoMaquina == true) {
+                    System.out.println("Usted dispone de " + descuento + " euros de descuento para la tienda de alimentación de " + estacionDestino + ".");
+                }
+                System.out.println("##################");
+                System.out.println();         
+        
+                // Actualiza el total de dinero acumulado en la maquina
+                totalDineroAcumulado = totalDineroAcumulado + precioBillete;
+                // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
+                balanceClienteActual = balanceClienteActual - precioBillete;
+                // Cuenta el numero de billetes vendidos
+                billetesVendidos = billetesVendidos + 1;
             }
-            System.out.println("##################");
-            System.out.println();         
-    
-            // Actualiza el total de dinero acumulado en la maquina
-            totalDineroAcumulado = totalDineroAcumulado + precioBillete;
-            // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
-            balanceClienteActual = balanceClienteActual - precioBillete;
-            // Cuenta el numero de billetes vendidos
-            billetesVendidos = billetesVendidos + 1;
+            else {
+                System.out.println("Necesitas introducir " + (cantidadDeDineroQueFalta) + " euros mas!");
+                        
+            }
         }
-        else {
-            System.out.println("Necesitas introducir " + (cantidadDeDineroQueFalta) + " euros mas!");
-                    
-        } 
-        if (billetesVendidos == numeroMaximoDeBilletes) {
+        else  {
             System.out.println("No se pueden imprimir más billetes, se ha llegado al máximo de billetes vendidos.");
         }
     }
