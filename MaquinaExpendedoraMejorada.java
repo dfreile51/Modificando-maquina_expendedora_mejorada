@@ -14,13 +14,15 @@ public class MaquinaExpendedoraMejorada {
     private int billetesVendidos;
     // Tipo de maquina con premio o sin premio
     private boolean tipoMaquina;
+    // Numero maximo de billetes
+    private int numeroMaximoDeBilletes;
     
     /**
      * Crea una maquina expendedora de billetes de tren con el 
      * precio del billete y el origen y destino dados. Se asume que el precio
      * del billete que se recibe es mayor que 0.
      */
-    public MaquinaExpendedoraMejorada(int precioDelBillete, String origen, String destino, boolean tipoDeLaMaquina) {
+    public MaquinaExpendedoraMejorada(int precioDelBillete, String origen, String destino, boolean tipoDeLaMaquina, int maximoDeBilletes) {
         precioBillete = precioDelBillete;
         balanceClienteActual = 0;
         totalDineroAcumulado = 0;
@@ -28,6 +30,7 @@ public class MaquinaExpendedoraMejorada {
         estacionDestino = destino;
         billetesVendidos = 0;
         tipoMaquina = tipoDeLaMaquina;
+        numeroMaximoDeBilletes = maximoDeBilletes;
     }
 
     /**
@@ -48,12 +51,15 @@ public class MaquinaExpendedoraMejorada {
      * Simula la introduccion de dinero por parte del cliente actual
      */
     public void introducirDinero(int cantidadIntroducida) {
+        if (billetesVendidos == numeroMaximoDeBilletes) {
+            System.out.println("No se acepta más dinero, lo siento.");
+        }
         if (cantidadIntroducida > 0) {
             balanceClienteActual = balanceClienteActual + cantidadIntroducida;
         }
         else {
             System.out.println(cantidadIntroducida + " no es una cantidad de dinero valida.");
-        }        
+        }
     }
 
     /**
@@ -69,7 +75,7 @@ public class MaquinaExpendedoraMejorada {
             System.out.println("# De " + estacionOrigen + " a " + estacionDestino);
             System.out.println("# " + precioBillete + " euros.");
             if (tipoMaquina == true) {
-            System.out.println("Usted dispone de " + descuento + " euros de descuento para la tienda de alimentación de " + estacionDestino);
+                System.out.println("Usted dispone de " + descuento + " euros de descuento para la tienda de alimentación de " + estacionDestino + ".");
             }
             System.out.println("##################");
             System.out.println();         
@@ -84,7 +90,10 @@ public class MaquinaExpendedoraMejorada {
         else {
             System.out.println("Necesitas introducir " + (cantidadDeDineroQueFalta) + " euros mas!");
                     
-        }           
+        } 
+        if (billetesVendidos == numeroMaximoDeBilletes) {
+            System.out.println("No se pueden imprimir más billetes, se ha llegado al máximo de billetes vendidos.");
+        }
     }
     
     /**
